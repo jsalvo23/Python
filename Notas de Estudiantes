@@ -1,0 +1,47 @@
+class NotasAsignaturas:
+  def __init__(self):
+    self.lenguaje = []
+    self.matematicas = []
+    self.biologia = []
+    self.fisica = []
+    self.quimica = []
+    self.historia = []
+
+class Estudiante(NotasAsignaturas):
+  def __init__(self, nombre, edad):
+    super().__init__()
+    self.nombre = nombre
+    self.edad = edad
+    self.asignaturas = [self.lenguaje, self.matematicas, self.biologia, self.fisica, self.quimica, self.historia]
+    self.calificaciones = []
+    self.promedios = {"Lenguaje":1, "Matematicas":1, "Biologia":1, "Fisica":1, "Quimica":1, "Historia":1}
+
+  def obtener_notas_asignaturas(self):
+    contador = 0
+    for i in self.asignaturas:
+      for j in [1,2,3]:
+        lista_promedios = list(self.promedios.keys())
+        calificacion = int(input(f"Ingrese la {j}° nota de {lista_promedios[contador]}: "))
+        self.asignaturas[contador].append(calificacion)
+      contador += 1
+
+  def evaluar_rendimiento(self, notas):
+    for nota_asign, promedios in zip(self.asignaturas, self.promedios):
+      promedio = sum(nota_asign) / 3
+      self.promedios[promedios] = promedio
+
+# Lista para almacenar estudiantes y sus notas
+estudiantes = []
+
+while True:
+    nombre_estudiante = input("Ingrese el nombre del estudiante (o 'fin' para terminar): ")
+    if nombre_estudiante.lower() == 'fin':
+        break
+    else:
+      edad = int(input(f"Ingrese la edad de {nombre_estudiante}: "))
+      estudiante = Estudiante(nombre_estudiante, edad)
+      notas_estudiante = estudiante.obtener_notas_asignaturas()
+      rendimiento = estudiante.evaluar_rendimiento(notas_estudiante)
+
+    estudiantes.append(estudiante)
+    print(estudiante.promedios)
