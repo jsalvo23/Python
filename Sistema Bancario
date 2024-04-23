@@ -1,0 +1,89 @@
+import random
+
+class CuentaBancaria:
+    def __init__(self, nombre, numero_cliente, numero_cuenta, saldo, banco):
+        self.nombre = nombre
+        self.numero_cliente = numero_cliente
+        self.numero_cuenta = numero_cuenta
+        self.saldo = saldo
+        self.banco = banco
+
+    def depositar(self, monto):
+        if monto > 0:
+            self.saldo += monto
+            return f"Depósito de ${monto} realizado. Nuevo saldo: ${self.saldo}"
+        else:
+            return "Error: El monto del depósito debe ser mayor que cero."
+
+    def retirar(self, monto):
+        if 0 < monto <= self.saldo:
+            self.saldo -= monto
+            return f"Retiro de ${monto} realizado. Nuevo saldo: ${self.saldo}"
+        else:
+            return "Error: Monto de retiro no válido o saldo insuficiente."
+
+    def consultar_saldo(self):
+        return f"Saldo actual: ${self.saldo}"
+
+# Función para crear una nueva cuenta bancaria
+def crear_cuenta():
+    nombre = input("Ingrese su nombre y apellido: ")
+    numero_cliente = int(input("Ingrese su número de cliente: "))
+    banco = input("¿En qué banco desea crear una cuenta bancaria?: ")
+    numero_de_cuenta = random.randint(100000, 999999)
+    print("Su número de cuenta es: ", numero_de_cuenta)
+
+    cuenta = CuentaBancaria(nombre, numero_cliente, numero_de_cuenta, 0, banco)
+
+    saldo_inicial = input("¿Desea ingresar saldo a su cuenta? (si/no): ").lower()
+    if saldo_inicial == "si":
+        cuenta.saldo = int(input("Cuánto dinero ($) desea ingresar en su cuenta bancaria?: "))
+
+    cuentas.append(cuenta)
+    print(cuentas)
+    print("¡Cuenta creada exitosamente!")
+
+# Función para consultar datos del cliente
+def consultar_datos(numero_cliente):
+    cuenta = next((cuenta for cuenta in cuentas if cuenta.numero_cliente == numero_cliente), None)
+    if cuenta:
+        print(f"\nDatos del cliente {cuenta.nombre} (Número de cliente: {cuenta.numero_cliente}):")
+        print(f"Número de cuenta: {cuenta.numero_cuenta}")
+        print(cuenta.consultar_saldo())
+    else:
+        print("Cliente no encontrado.")
+
+# Lista para almacenar las cuentas creadas
+cuentas = []
+
+# Bucle principal
+while True:
+    try:
+        menu = int(input("\nSeleccione una opción:\n1. Crear cuenta bancaria\n2. Consultar datos\n3. Depositar o retirar dinero\n4. Salir\n"))
+
+        if menu == 1:
+            crear_cuenta()
+        elif menu == 2:
+            numero_cliente = int(input("Ingrese su número de cliente: "))
+            consultar_datos(numero_cliente)
+        elif menu == 3:
+            numero_cliente = int(input("Ingrese su número de cliente: "))
+            cuenta = next((cuenta for cuenta in cuentas if cuenta.numero_cliente == numero_cliente), None)
+            if cuenta:
+              x = int(input("Si quiere Depositar dinero en su cuenta presione 1, si quiere retirarla, presione 2: "))
+              if x == 1:
+                  cash = int(input("¿Cuánto dinero desea depositar?"))
+                  cuenta.depositar(cash)
+              if x == 2:
+                  cash = int(input("¿Cuánto dinero desea retirar?"))
+                  cuenta.retirar(cash)
+            else:
+                print("Cliente no encontrado.")
+        elif menu == 4:
+            print("Saliendo del programa. ¡Hasta luego!")
+            break
+        else:
+            print("Opción inválida. Por favor, seleccione una opción válida.")
+
+    except ValueError:
+        print("Error: Ingrese un número válido.")
