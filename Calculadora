@@ -1,0 +1,70 @@
+import ast
+import numpy as np
+
+def calcular_operacion_compuesta(operacion_compuesta):
+    try:
+        resultado = ast.literal_eval(operacion_compuesta)
+        return resultado
+    except (SyntaxError, ValueError):
+        print("Error al evaluar la operación compuesta")
+
+# Menú principal
+while True:
+    print("\n--- CALCULADORA NUMPY ---")
+    print("Operaciones disponibles:")
+    print("1. Suma")
+    print("2. Resta")
+    print("3. Multiplicación")
+    print("4. División")
+    print("5. Potencia")
+    print("6. Raíz Cuadrada")
+    print("7. Operación compuesta")
+    print("8. Salir")
+
+    opcion = input("Ingrese el número de la operación que desea realizar: ")
+
+    if opcion == '8':
+        print("Saliendo de la calculadora...")
+        break
+
+    if opcion in ['1', '2', '3', '4', '5']:
+        try:
+            num1 = float(input("Ingrese el primer número: "))
+            num2 = float(input("Ingrese el segundo número: "))
+
+            if opcion == '1':
+                resultado = num1 + num2
+            elif opcion == '2':
+                resultado = num1 - num2
+            elif opcion == '3':
+                resultado = num1 * num2
+            elif opcion == '4':
+                if num2 == 0:
+                    raise ValueError("Error: No se puede dividir por cero.")
+                resultado = num1 / num2
+            elif opcion == '5':
+                resultado = np.power(num1, num2)
+
+            print(f"Resultado: {resultado}")
+
+        except ValueError as e:
+            print(e)
+
+    elif opcion == '6':
+        try:
+            num1 = float(input("Ingrese el número: "))
+            if num1 < 0:
+                raise ValueError("Error: No se puede calcular la raíz cuadrada de un número negativo.")
+            resultado = np.sqrt(num1)
+            print(f"Resultado: {resultado}")
+        except ValueError as e:
+            print(e)
+
+    elif opcion == '7':
+        operacion_compuesta = input("Ingrese la operación compuesta lineal (sin paréntesis): ")
+        resultado_compuesto = calcular_operacion_compuesta(operacion_compuesta)
+        if resultado_compuesto is not None:
+            print(f"Resultado de la operación compuesta: {resultado_compuesto}")
+
+    else:
+        print("Opción no válida. Ingrese un número del 1 al 6.")
