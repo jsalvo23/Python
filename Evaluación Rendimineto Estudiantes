@@ -1,0 +1,51 @@
+def obtener_notas_asignaturas():
+    asignaturas = []
+    while True:
+        asignatura = input("Ingrese el nombre de la asignatura (o 'fin' para terminar): ")
+        if asignatura.lower() == 'fin':
+            break
+        asignaturas.append(asignatura)
+    return asignaturas
+
+ASIGNATURAS = ["Lenguaje", "Matematicas", "Biologia", "Fisica", "Quimica", "Historia"]
+
+def ingresar_notas_estudiante():
+    notas = []
+    for asignatura in ASIGNATURAS:
+        nota = float(input(f"Ingrese la nota para {asignatura}: "))
+        notas.append(nota)
+    return notas
+
+def evaluar_rendimiento(notas):
+    promedio = sum(notas) / len(notas)
+    if promedio >= 4:
+        return "Aprobado"
+    else:
+        return "Reprobado"
+
+# Lista para almacenar estudiantes y sus notas
+estudiantes = []
+
+while True:
+    nombre_estudiante = input("Ingrese el nombre del estudiante (o 'fin' para terminar): ")
+    if nombre_estudiante.lower() == 'fin':
+        break
+
+    notas_estudiante = ingresar_notas_estudiante()
+
+    rendimiento = evaluar_rendimiento(notas_estudiante)
+
+    estudiantes.append({
+        'nombre': nombre_estudiante,
+        'asignaturas': dict(zip(ASIGNATURAS, notas_estudiante)),
+        'rendimiento': rendimiento
+    })
+
+# Imprimir resultados
+print("\nResultados:")
+for estudiante in estudiantes:
+    print(f"\nNombre: {estudiante['nombre']}")
+    print("Notas por asignatura:")
+    for asignatura, nota in estudiante['asignaturas'].items():
+        print(f"  - {asignatura}: {nota}")
+    print(f"Rendimiento: {estudiante['rendimiento']}\n")
